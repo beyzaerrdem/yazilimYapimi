@@ -1,0 +1,44 @@
+﻿@model IEnumerable<yazilimYapimi.Models.Entity.tableConfirmMoney>
+
+@{
+    ViewBag.Title = "ConfirmList";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>ConfirmList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Money)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Confirmed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tableUser.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Money)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Confirmed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tableUser.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Confirm", "Confirm", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
