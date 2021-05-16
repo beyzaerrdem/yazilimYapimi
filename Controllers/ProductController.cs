@@ -110,7 +110,7 @@ namespace yazilimYapimi.Controllers
 
             int userId = Convert.ToInt32(Session["UserID"]);
             var userWallet = db.tableWallet.FirstOrDefault(x => x.UserID == userId);
-            var productList = db.tableProduct.Where(x => x.ProductName == p3.ProductName).OrderBy(x => x.Price); //düşük fiyat ve alıcının miktarından fazla
+            var productList = db.tableProduct.Where(x => x.ProductName == p3.ProductName).OrderBy(x => x.Price); // fiyata göre sıralanması 
             int? q = p3.Quantity;
             var money = userWallet.Money;
             decimal availableQuantity = 0;
