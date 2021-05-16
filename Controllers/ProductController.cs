@@ -77,7 +77,7 @@ namespace yazilimYapimi.Controllers
             {
                 return RedirectToAction("ProductList");
             }
-            var p2 = db.tableConfirmProduct.FirstOrDefault(x => x.ID == id);   //bize gönderilen id conproducttaki id ye eşitse
+            var p2 = db.tableConfirmProduct.FirstOrDefault(x => x.ID == id);   //bize gönderilen id confirm producttaki id ye eşitse
             tableProduct tableProduct = new tableProduct();
             tableProduct.ProductName = p2.ProductName;
             tableProduct.Price = p2.Price;
