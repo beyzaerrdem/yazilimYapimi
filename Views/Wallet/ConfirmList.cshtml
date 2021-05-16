@@ -33,7 +33,7 @@
             @Html.DisplayFor(modelItem => item.tableUser.Name)
         </td>
         <td>
-            @Html.ActionLink("Confirm", "Confirm", new { id=item.ID })
+            <a href="/Wallet/Confirm/@item.ID" class="btn btn-primary">Confirm</a>
         </td>
     </tr>
 }
