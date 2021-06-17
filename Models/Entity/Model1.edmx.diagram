@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="f67e3526bca249a5abe361a3caadd256" Name="Diagram1">
         <EntityTypeShape EntityType="MvcDbProjeModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MvcDbProjeModel.tableConfirmMoney" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDbProjeModel.tableConfirmMoney" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MvcDbProjeModel.tableConfirmProduct" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MvcDbProjeModel.tableProduct" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="MvcDbProjeModel.tableUser" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />

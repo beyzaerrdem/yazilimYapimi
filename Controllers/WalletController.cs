@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
+using System.Xml.Linq;
 using yazilimYapimi.Models.Entity;
+
 
 namespace yazilimYapimi.Controllers
 {
@@ -86,19 +89,28 @@ namespace yazilimYapimi.Controllers
             {
                 return RedirectToAction("ProductList", "Product");
             }
-
+            
             var result = db.tableConfirmMoney.Find(id);
             int? userId = result.UserID;
             var tableWallet = db.tableWallet.FirstOrDefault(x => x.UserID == userId);
 
-            tableWallet.Money += result.Money;
+            tableWallet.Money += currencyToTRY(result.Money,"USD");
             result.Confirmed = true;
             db.SaveChanges();
             
 
             return RedirectToAction("ConfirmList");
         }
+        private decimal? currencyToTRY(decimal? money,string currencyType)
+        {
+            XDocument xDocument = XDocument.Load("http://www.tcmb.gov.tr/kurlar/today.xml");
 
+            var s = xDocument.Element("Tarih_Date").Elements("Currency").FirstOrDefault(a => a.Attribute("Kod").Value == currencyType);
+            var bElement = s.Element("ForexBuying");
+
+            decimal fiyat = Convert.ToDecimal(bElement.Value.Replace('.', ','));
+            return money * fiyat;
+        }
 
     }
 }
