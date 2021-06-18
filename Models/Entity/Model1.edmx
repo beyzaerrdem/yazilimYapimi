@@ -20,7 +20,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Money" Type="money" />
+          <Property Name="Money" Type="decimal" Precision="19" Scale="4" />
           <Property Name="UserID" Type="int" />
           <Property Name="Confirmed" Type="bit" />
         </EntityType>
@@ -32,8 +32,14 @@
           <Property Name="ProductName" Type="varchar" MaxLength="50" />
           <Property Name="UserID" Type="int" />
           <Property Name="Confirmed" Type="bit" />
-          <Property Name="Price" Type="money" />
+          <Property Name="Price" Type="decimal" Precision="19" Scale="4" />
           <Property Name="Quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="tableOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="tableProduct">
           <Key>
@@ -41,7 +47,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductName" Type="varchar" MaxLength="50" />
-          <Property Name="Price" Type="money" />
+          <Property Name="Price" Type="decimal" Precision="19" Scale="4" />
           <Property Name="Quantity" Type="int" />
           <Property Name="UserID" Type="int" />
         </EntityType>
@@ -65,7 +71,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Money" Type="money" />
+          <Property Name="Money" Type="decimal" Precision="19" Scale="4" />
           <Property Name="UserID" Type="int" />
         </EntityType>
         <Association Name="FK_tableConfirmMoney_tableUser">
@@ -128,6 +134,7 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableConfirmMoney" EntityType="Self.tableConfirmMoney" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableConfirmProduct" EntityType="Self.tableConfirmProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableOrder" EntityType="Self.tableOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableProduct" EntityType="Self.tableProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableUser" EntityType="Self.tableUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableWallet" EntityType="Self.tableWallet" Schema="dbo" store:Type="Tables" />
@@ -302,7 +309,14 @@
             <End Role="tableUser" EntitySet="tableUser" />
             <End Role="tableWallet" EntitySet="tableWallet" />
           </AssociationSet>
+          <EntitySet Name="tableOrder" EntityType="MvcDbProjeModel.tableOrder" />
         </EntityContainer>
+        <EntityType Name="tableOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -378,6 +392,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+          <EntitySetMapping Name="tableOrder">
+            <EntityTypeMapping TypeName="MvcDbProjeModel.tableOrder">
+              <MappingFragment StoreEntitySet="tableOrder">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
