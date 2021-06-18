@@ -103,12 +103,12 @@ namespace yazilimYapimi.Controllers
         }
         private decimal? currencyToTRY(decimal? money,string currencyType)
         {
-            XDocument xDocument = XDocument.Load("http://www.tcmb.gov.tr/kurlar/today.xml");
+            XDocument xDocument = XDocument.Load("http://www.tcmb.gov.tr/kurlar/today.xml"); // verileri çekmek 
 
             var s = xDocument.Element("Tarih_Date").Elements("Currency").FirstOrDefault(a => a.Attribute("Kod").Value == currencyType);
             var bElement = s.Element("ForexBuying");
 
-            decimal fiyat = Convert.ToDecimal(bElement.Value.Replace('.', ','));
+            decimal fiyat = Convert.ToDecimal(bElement.Value.Replace('.', ','));   // noktayı virgül yapmak için 
             return money * fiyat;
         }
 
