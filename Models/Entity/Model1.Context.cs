@@ -31,5 +31,6 @@ namespace yazilimYapimi.Models.Entity
         public virtual DbSet<tableProduct> tableProduct { get; set; }
         public virtual DbSet<tableUser> tableUser { get; set; }
         public virtual DbSet<tableWallet> tableWallet { get; set; }
+        public virtual DbSet<tableOrder> tableOrder { get; set; }
     }
 }

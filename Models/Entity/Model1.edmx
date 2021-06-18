@@ -4,151 +4,158 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MvcDbProjeModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="MvcDbProjeModelStoreContainer">
-    <EntitySet Name="sysdiagrams" EntityType="MvcDbProjeModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="tableConfirmMoney" EntityType="MvcDbProjeModel.Store.tableConfirmMoney" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="tableConfirmProduct" EntityType="MvcDbProjeModel.Store.tableConfirmProduct" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="tableProduct" EntityType="MvcDbProjeModel.Store.tableProduct" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="tableUser" EntityType="MvcDbProjeModel.Store.tableUser" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="tableWallet" EntityType="MvcDbProjeModel.Store.tableWallet" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_tableConfirmMoney_tableUser" Association="MvcDbProjeModel.Store.FK_tableConfirmMoney_tableUser">
-      <End Role="tableUser" EntitySet="tableUser" />
-      <End Role="tableConfirmMoney" EntitySet="tableConfirmMoney" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tableConfirmProduct_tableUser" Association="MvcDbProjeModel.Store.FK_tableConfirmProduct_tableUser">
-      <End Role="tableUser" EntitySet="tableUser" />
-      <End Role="tableConfirmProduct" EntitySet="tableConfirmProduct" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tableProduct_tableUser" Association="MvcDbProjeModel.Store.FK_tableProduct_tableUser">
-      <End Role="tableUser" EntitySet="tableUser" />
-      <End Role="tableProduct" EntitySet="tableProduct" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tableWallet_tableUser" Association="MvcDbProjeModel.Store.FK_tableWallet_tableUser">
-      <End Role="tableUser" EntitySet="tableUser" />
-      <End Role="tableWallet" EntitySet="tableWallet" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" Nullable="true" />
-    <Property Name="definition" Type="varbinary(max)" Nullable="true" />
-  </EntityType>
-  <EntityType Name="tableConfirmMoney">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Money" Type="decimal" Nullable="true" Precision="19" Scale="4" />
-    <Property Name="UserID" Type="int" Nullable="true" />
-    <Property Name="Confirmed" Type="bit" Nullable="true" />
-  </EntityType>
-  <EntityType Name="tableConfirmProduct">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProductName" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="UserID" Type="int" Nullable="true" />
-    <Property Name="Confirmed" Type="bit" Nullable="true" />
-    <Property Name="Price" Type="decimal" Nullable="true" Precision="19" Scale="4" />
-    <Property Name="Quantity" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="tableProduct">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProductName" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="Price" Type="decimal" Nullable="true" Precision="19" Scale="4" />
-    <Property Name="Quantity" Type="int" Nullable="true" />
-    <Property Name="UserID" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="tableUser">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="Surname" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="UserName" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="Password" Type="nvarchar" Nullable="true" MaxLength="50" />
-    <Property Name="TC" Type="varchar" Nullable="true" MaxLength="11" />
-    <Property Name="PhoneNumber" Type="varchar" Nullable="true" MaxLength="20" />
-    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="50" />
-    <Property Name="Adress" Type="nvarchar" Nullable="true" MaxLength="250" />
-    <Property Name="UserType" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="tableWallet">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Money" Type="decimal" Nullable="true" Precision="19" Scale="4" />
-    <Property Name="UserID" Type="int" Nullable="true" />
-  </EntityType>
-  <Association Name="FK_tableConfirmMoney_tableUser">
-    <End Role="tableUser" Type="MvcDbProjeModel.Store.tableUser" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="tableConfirmMoney" Type="MvcDbProjeModel.Store.tableConfirmMoney" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tableUser">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="tableConfirmMoney">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tableConfirmProduct_tableUser">
-    <End Role="tableUser" Type="MvcDbProjeModel.Store.tableUser" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="tableConfirmProduct" Type="MvcDbProjeModel.Store.tableConfirmProduct" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tableUser">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="tableConfirmProduct">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tableProduct_tableUser">
-    <End Role="tableUser" Type="MvcDbProjeModel.Store.tableUser" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="tableProduct" Type="MvcDbProjeModel.Store.tableProduct" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tableUser">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="tableProduct">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tableWallet_tableUser">
-    <End Role="tableUser" Type="MvcDbProjeModel.Store.tableUser" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="tableWallet" Type="MvcDbProjeModel.Store.tableWallet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tableUser">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="tableWallet">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="MvcDbProjeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tableConfirmMoney">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Money" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Confirmed" Type="bit" />
+        </EntityType>
+        <EntityType Name="tableConfirmProduct">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Confirmed" Type="bit" />
+          <Property Name="Price" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="Quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="tableOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tableProduct">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="50" />
+          <Property Name="Price" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
+        <EntityType Name="tableUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="TC" Type="varchar" MaxLength="11" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Adress" Type="nvarchar" MaxLength="250" />
+          <Property Name="UserType" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tableWallet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Money" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
+        <Association Name="FK_tableConfirmMoney_tableUser">
+          <End Role="tableUser" Type="Self.tableUser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tableConfirmMoney" Type="Self.tableConfirmMoney" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tableConfirmMoney">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tableConfirmProduct_tableUser">
+          <End Role="tableUser" Type="Self.tableUser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tableConfirmProduct" Type="Self.tableConfirmProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tableConfirmProduct">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tableProduct_tableUser">
+          <End Role="tableUser" Type="Self.tableUser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tableProduct" Type="Self.tableProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tableProduct">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tableWallet_tableUser">
+          <End Role="tableUser" Type="Self.tableUser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tableWallet" Type="Self.tableWallet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tableWallet">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MvcDbProjeModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableConfirmMoney" EntityType="Self.tableConfirmMoney" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableConfirmProduct" EntityType="Self.tableConfirmProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableOrder" EntityType="Self.tableOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableProduct" EntityType="Self.tableProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableUser" EntityType="Self.tableUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableWallet" EntityType="Self.tableWallet" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tableConfirmMoney_tableUser" Association="Self.FK_tableConfirmMoney_tableUser">
+            <End Role="tableUser" EntitySet="tableUser" />
+            <End Role="tableConfirmMoney" EntitySet="tableConfirmMoney" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tableConfirmProduct_tableUser" Association="Self.FK_tableConfirmProduct_tableUser">
+            <End Role="tableUser" EntitySet="tableUser" />
+            <End Role="tableConfirmProduct" EntitySet="tableConfirmProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tableProduct_tableUser" Association="Self.FK_tableProduct_tableUser">
+            <End Role="tableUser" EntitySet="tableUser" />
+            <End Role="tableProduct" EntitySet="tableProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tableWallet_tableUser" Association="Self.FK_tableWallet_tableUser">
+            <End Role="tableUser" EntitySet="tableUser" />
+            <End Role="tableWallet" EntitySet="tableWallet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MvcDbProjeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -302,7 +309,14 @@
             <End Role="tableUser" EntitySet="tableUser" />
             <End Role="tableWallet" EntitySet="tableWallet" />
           </AssociationSet>
+          <EntitySet Name="tableOrder" EntityType="MvcDbProjeModel.tableOrder" />
         </EntityContainer>
+        <EntityType Name="tableOrder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -378,6 +392,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+          <EntitySetMapping Name="tableOrder">
+            <EntityTypeMapping TypeName="MvcDbProjeModel.tableOrder">
+              <MappingFragment StoreEntitySet="tableOrder">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
