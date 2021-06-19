@@ -101,7 +101,7 @@ namespace yazilimYapimi.Controllers
         }
 
         [HttpPost]
-        public ActionResult OrderProduct(tableProduct p3)
+        public ActionResult OrderProduct(tableOrder p3)
         {
             if (Session["UserType"] == null)
             {
@@ -110,12 +110,14 @@ namespace yazilimYapimi.Controllers
 
             int userId = Convert.ToInt32(Session["UserID"]);
             var userWallet = db.tableWallet.FirstOrDefault(x => x.UserID == userId);
-            var productList = db.tableProduct.Where(x => x.ProductName == p3.ProductName).OrderBy(x => x.Price); // fiyata göre sıralanması 
+            var productList = db.tableProduct.Where(x => x.ProductName == p3.ProductName && x.Price==p3.Price); // fiyata göre sıralanması 
             int? q = p3.Quantity;
             var money = userWallet.Money;
             decimal availableQuantity = 0;
 
             string message = "";
+
+            bool islemYapildi = true;
 
             foreach (var item in productList)
             {
@@ -152,11 +154,18 @@ namespace yazilimYapimi.Controllers
                     }
                     else
                     {
+                        islemYapildi = false;
                         message = "You don't have enough money for this purchase";
                         break;
                     }
                 }
             }
+            if (islemYapildi)
+            {
+                db.tableOrder.Add(p3);
+            }
+
+            // p3.bool= islemYapildi;
 
             userWallet.Money = money;
             db.SaveChanges();

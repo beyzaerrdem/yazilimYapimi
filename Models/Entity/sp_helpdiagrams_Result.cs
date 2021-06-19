@@ -10,15 +10,13 @@
 namespace yazilimYapimi.Models.Entity
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tableOrder
+    public partial class sp_helpdiagrams_Result
     {
+        public string Database { get; set; }
+        public string Name { get; set; }
         public int ID { get; set; }
-        public string ProductName { get; set; }
-        public Nullable<int> Quantity { get; set; }
-        public Nullable<int> Price { get; set; }
-        public Nullable<System.DateTime> Time { get; set; }
-        public Nullable<bool> State { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }
