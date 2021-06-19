@@ -6,3 +6,25 @@
 
 <h2>Report</h2>
 
+<table class=" table table-bordered">
+    <tr>
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Time</th>
+    </tr>
+
+    <tbody>
+        @foreach (var prdct in Model)
+        {
+            <tr>
+                <th>@prdct.ID</th>
+                <td>@prdct.ProductName</td>
+                <td>@prdct.Price</td>
+                <td>@prdct.Quantity</td>
+                <td>@prdct.Time</td>
+            </tr>
+        }
+    </tbody>
+</table>

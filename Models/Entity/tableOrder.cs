@@ -20,5 +20,8 @@ namespace yazilimYapimi.Models.Entity
         public Nullable<int> Price { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
         public Nullable<bool> State { get; set; }
+        public Nullable<int> CustomerID { get; set; }
+    
+        public virtual tableUser tableUser { get; set; }
     }
 }

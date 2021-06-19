@@ -109,6 +109,8 @@ namespace yazilimYapimi.Controllers
             }
 
             int userId = Convert.ToInt32(Session["UserID"]);
+            p3.CustomerID = userId;
+            p3.Time = DateTime.Now;
             var userWallet = db.tableWallet.FirstOrDefault(x => x.UserID == userId);
             var productList = db.tableProduct.Where(x => x.ProductName == p3.ProductName && x.Price==p3.Price); // fiyata göre sıralanması 
             int? q = p3.Quantity;
@@ -160,10 +162,10 @@ namespace yazilimYapimi.Controllers
                     }
                 }
             }
-            if (islemYapildi)
-            {
-                db.tableOrder.Add(p3);
-            }
+
+            p3.State = islemYapildi;
+
+            db.tableOrder.Add(p3);
 
             // p3.bool= islemYapildi;
 

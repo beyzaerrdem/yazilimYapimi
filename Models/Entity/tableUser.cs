@@ -21,6 +21,7 @@ namespace yazilimYapimi.Models.Entity
             this.tableConfirmProduct = new HashSet<tableConfirmProduct>();
             this.tableProduct = new HashSet<tableProduct>();
             this.tableWallet = new HashSet<tableWallet>();
+            this.tableOrder = new HashSet<tableOrder>();
         }
     
         public int ID { get; set; }
@@ -42,5 +43,7 @@ namespace yazilimYapimi.Models.Entity
         public virtual ICollection<tableProduct> tableProduct { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tableWallet> tableWallet { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tableOrder> tableOrder { get; set; }
     }
 }

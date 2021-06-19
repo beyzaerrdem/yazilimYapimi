@@ -16,6 +16,7 @@
         <AssociationConnector Association="MvcDbProjeModel.FK_tableProduct_tableUser" ManuallyRouted="false" />
         <AssociationConnector Association="MvcDbProjeModel.FK_tableWallet_tableUser" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MvcDbProjeModel.tableOrder" Width="1.5" PointX="5.375" PointY="3.75" />
+        <AssociationConnector Association="MvcDbProjeModel.FK_tableOrder_tableUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
