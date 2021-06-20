@@ -83,9 +83,27 @@ namespace yazilimYapimi.Controllers
             tableProduct.Price = p2.Price;
             tableProduct.Quantity = p2.Quantity;
             tableProduct.UserID = p2.UserID;
-            db.tableProduct.Add(tableProduct);
+            var product = db.tableProduct.FirstOrDefault(p => p.ProductName == tableProduct.ProductName && p.Price == tableProduct.Price && p.UserID == tableProduct.UserID);
+            if (product==null)
+            {
+                db.tableProduct.Add(tableProduct);
+            }
+            else
+            {
+                product.Quantity += tableProduct.Quantity;
+                tableProduct = product;
+            }
+           
             p2.Confirmed = true;
             db.SaveChanges();
+            var result = db.tableOrder.Where(o => o.State == false && o.ProductName==p2.ProductName&&o.Quantity<tableProduct.Quantity).ToList();
+            foreach (var item in result)
+            {
+                
+                OrderProduct(item);
+                //db.tableOrder.Remove(item);
+            }
+            
             return RedirectToAction("ConfirmList");
         }
 
@@ -107,41 +125,56 @@ namespace yazilimYapimi.Controllers
             {
                 return RedirectToAction("ProductList");
             }
-
-            int userId = Convert.ToInt32(Session["UserID"]);
-            p3.CustomerID = userId;
-            p3.Time = DateTime.Now;
-            var userWallet = db.tableWallet.FirstOrDefault(x => x.UserID == userId);
+            bool update = true;
+            if (p3.CustomerID == null)
+            {
+                int userId = Convert.ToInt32(Session["UserID"]);
+                p3.CustomerID = userId;
+                p3.Time = DateTime.Now;
+                update = false;
+            }
+            else
+                p3 = db.tableOrder.Find(p3.ID);
+            
+            
+            var userWallet = db.tableWallet.FirstOrDefault(x => x.UserID == p3.CustomerID);
+            var muhWallet = db.tableWallet.FirstOrDefault(x => x.tableUser.UserName == "muhasebe");
             var productList = db.tableProduct.Where(x => x.ProductName == p3.ProductName && x.Price==p3.Price); // fiyata göre sıralanması 
             int? q = p3.Quantity;
-            var money = userWallet.Money;
+            var money =userWallet.Money;
             decimal availableQuantity = 0;
 
             string message = "";
 
-            bool islemYapildi = true;
+            bool islemYapildi = false;
 
             foreach (var item in productList)
             {
+                var supplierWallet = db.tableWallet.FirstOrDefault(x=>x.UserID==item.UserID);
                 if (item.Quantity > 0)
                 {
-                    if (item.Price * q <= money)
+                    
+                    if (fiyatartiYuzdebir(item.Price * q) <= money)
                     {
                         if (item.Quantity >= q)
                         {
 
                             item.Quantity -= q;
-                            money -= (item.Price * q);
+                            money -= fiyatartiYuzdebir(item.Price * q);
+                            supplierWallet.Money += item.Price * q;
+                            muhWallet.Money += (item.Price * q) / 100;
                             message = "Your purchase has been made.";
+                            islemYapildi = true;
                             break;
                         }
                         else
                         {
                             q -= item.Quantity;
-                            money -= (item.Price * item.Quantity);
-
+                            money -= fiyatartiYuzdebir(item.Price * item.Quantity);
+                            supplierWallet.Money += (item.Price * item.Quantity);
+                            muhWallet.Money += (item.Price * item.Quantity) / 100;
                             message = "You bought " + item.Quantity + " pieces of " + p3.ProductName + "";
-
+                            islemYapildi = true;
                             item.Quantity = 0;
                         }
                     }
@@ -149,9 +182,12 @@ namespace yazilimYapimi.Controllers
                     {
                         double a = Convert.ToDouble(money / item.Price);
                         availableQuantity = Convert.ToDecimal(Math.Round(a));
-                        money -= availableQuantity * item.Price;
+                        money -=fiyatartiYuzdebir(availableQuantity * item.Price);
+                        supplierWallet.Money += availableQuantity * item.Price;
+                        muhWallet.Money += (availableQuantity * item.Price) / 100;
                         item.Quantity -= Convert.ToInt32(availableQuantity);
                         message = "You bought " + availableQuantity + " pieces of " + p3.ProductName + "";
+                        islemYapildi = true;
                         break;
                     }
                     else
@@ -165,9 +201,12 @@ namespace yazilimYapimi.Controllers
 
             p3.State = islemYapildi;
 
-            db.tableOrder.Add(p3);
+            if (!update)
+            {
+                db.tableOrder.Add(p3);
+            }
 
-            // p3.bool= islemYapildi;
+            
 
             userWallet.Money = money;
             db.SaveChanges();
@@ -176,7 +215,11 @@ namespace yazilimYapimi.Controllers
 
             return View();
         }
-
+        decimal? fiyatartiYuzdebir(decimal? fiyat)
+        {
+            decimal? yuzdebir = fiyat / 100;
+            return fiyat + yuzdebir;
+        }
 
 
 

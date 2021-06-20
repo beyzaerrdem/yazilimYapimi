@@ -17,6 +17,8 @@
         <AssociationConnector Association="MvcDbProjeModel.FK_tableWallet_tableUser" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MvcDbProjeModel.tableOrder" Width="1.5" PointX="5.375" PointY="3.75" />
         <AssociationConnector Association="MvcDbProjeModel.FK_tableOrder_tableUser" />
+        <EntityTypeShape EntityType="MvcDbProjeModel.tableCurrency" Width="1.5" PointX="7.375" PointY="3.875" />
+        <AssociationConnector Association="MvcDbProjeModel.FK_tableConfirmMoney_Currency" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

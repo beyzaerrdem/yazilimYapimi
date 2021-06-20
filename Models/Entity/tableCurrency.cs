@@ -12,15 +12,18 @@ namespace yazilimYapimi.Models.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class tableConfirmMoney
+    public partial class tableCurrency
     {
-        public int ID { get; set; }
-        public Nullable<decimal> Money { get; set; }
-        public Nullable<int> UserID { get; set; }
-        public Nullable<bool> Confirmed { get; set; }
-        public Nullable<int> CurrencyId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tableCurrency()
+        {
+            this.tableConfirmMoney = new HashSet<tableConfirmMoney>();
+        }
     
-        public virtual tableUser tableUser { get; set; }
-        public virtual tableCurrency tableCurrency { get; set; }
+        public int ID { get; set; }
+        public string CurrencyType { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tableConfirmMoney> tableConfirmMoney { get; set; }
     }
 }
