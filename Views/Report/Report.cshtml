@@ -1,7 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Report";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    // Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Layout = "";
 }
 
 <h2>Report</h2>
@@ -28,3 +29,10 @@
         }
     </tbody>
 </table>
+
+<a href="GeneratePdf">GeneratePDF</a>
+
+
+<div>
+    @Html.ActionLink("Back to List", "ProductList")
+</div>
