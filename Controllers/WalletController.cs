@@ -27,18 +27,20 @@ namespace yazilimYapimi.Controllers
             if (wallet != null)
             {
                 ViewBag.Money = wallet.Money;
+                //ViewBag.CurrencyType = new SelectList(db.tableCurrency.ToList(), "ID", "CurrencyType");
             }
 
 
             return View();
         }
         [HttpPost]
-        public ActionResult Wallet(tableWallet w)
+        public ActionResult Wallet(tableConfirmMoney w)
         {
             if (Session["UserType"] == null)
             {
                 return RedirectToAction("ProductList", "Product");
             }
+            w.CurrencyId = w.CurrencyId == null ? 2 : w.CurrencyId;
 
             int userId = Convert.ToInt32(Session["UserID"]);
             var user = db.tableUser.Find(userId);
@@ -51,7 +53,8 @@ namespace yazilimYapimi.Controllers
                 {
                     Confirmed = false,
                     Money = w.Money,
-                    UserID = userId
+                    UserID = userId,
+                    CurrencyId=w.CurrencyId
                 };
                 db.tableConfirmMoney.Add(confirmMoney);
 
@@ -91,10 +94,11 @@ namespace yazilimYapimi.Controllers
             }
             
             var result = db.tableConfirmMoney.Find(id);
+            var currency = db.tableCurrency.Find(result.CurrencyId).CurrencyType;
             int? userId = result.UserID;
             var tableWallet = db.tableWallet.FirstOrDefault(x => x.UserID == userId);
 
-            tableWallet.Money += currencyToTRY(result.Money,"USD");
+            tableWallet.Money += currencyToTRY(result.Money,currency);
             result.Confirmed = true;
             db.SaveChanges();
             

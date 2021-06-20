@@ -20,9 +20,10 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Money" Type="money" />
+          <Property Name="Money" Type="decimal" Precision="19" Scale="4" />
           <Property Name="UserID" Type="int" />
           <Property Name="Confirmed" Type="bit" />
+          <Property Name="CurrencyId" Type="int" />
         </EntityType>
         <EntityType Name="tableConfirmProduct">
           <Key>
@@ -32,8 +33,15 @@
           <Property Name="ProductName" Type="varchar" MaxLength="50" />
           <Property Name="UserID" Type="int" />
           <Property Name="Confirmed" Type="bit" />
-          <Property Name="Price" Type="money" />
+          <Property Name="Price" Type="decimal" Precision="19" Scale="4" />
           <Property Name="Quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="tableCurrency">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CurrencyType" Type="char" MaxLength="3" Nullable="false" />
         </EntityType>
         <EntityType Name="tableOrder">
           <Key>
@@ -42,8 +50,8 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductName" Type="varchar" MaxLength="50" />
           <Property Name="Quantity" Type="int" />
-          <Property Name="Price" Type="money" />
-          <Property Name="Time" Type="datetime2" Precision="0" />
+          <Property Name="Price" Type="int" />
+          <Property Name="Time" Type="datetime" />
           <Property Name="State" Type="bit" />
           <Property Name="CustomerID" Type="int" />
         </EntityType>
@@ -53,7 +61,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductName" Type="varchar" MaxLength="50" />
-          <Property Name="Price" Type="money" />
+          <Property Name="Price" Type="decimal" Precision="19" Scale="4" />
           <Property Name="Quantity" Type="int" />
           <Property Name="UserID" Type="int" />
         </EntityType>
@@ -77,9 +85,21 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Money" Type="money" />
+          <Property Name="Money" Type="decimal" Precision="19" Scale="4" />
           <Property Name="UserID" Type="int" />
         </EntityType>
+        <Association Name="FK_tableConfirmMoney_Currency">
+          <End Role="tableCurrency" Type="Self.tableCurrency" Multiplicity="0..1" />
+          <End Role="tableConfirmMoney" Type="Self.tableConfirmMoney" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableCurrency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tableConfirmMoney">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tableConfirmMoney_tableUser">
           <End Role="tableUser" Type="Self.tableUser" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -148,45 +168,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="MvcDbProjeModelStoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableConfirmMoney" EntityType="Self.tableConfirmMoney" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableConfirmProduct" EntityType="Self.tableConfirmProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tableCurrency" EntityType="Self.tableCurrency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableOrder" EntityType="Self.tableOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableProduct" EntityType="Self.tableProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableUser" EntityType="Self.tableUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tableWallet" EntityType="Self.tableWallet" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tableConfirmMoney_Currency" Association="Self.FK_tableConfirmMoney_Currency">
+            <End Role="tableCurrency" EntitySet="tableCurrency" />
+            <End Role="tableConfirmMoney" EntitySet="tableConfirmMoney" />
+          </AssociationSet>
           <AssociationSet Name="FK_tableConfirmMoney_tableUser" Association="Self.FK_tableConfirmMoney_tableUser">
             <End Role="tableUser" EntitySet="tableUser" />
             <End Role="tableConfirmMoney" EntitySet="tableConfirmMoney" />
@@ -231,6 +225,8 @@
           <Property Name="UserID" Type="Int32" />
           <Property Name="Confirmed" Type="Boolean" />
           <NavigationProperty Name="tableUser" Relationship="Self.FK_tableConfirmMoney_tableUser" FromRole="tableConfirmMoney" ToRole="tableUser" />
+          <Property Name="CurrencyId" Type="Int32" />
+          <NavigationProperty Name="tableCurrency" Relationship="MvcDbProjeModel.FK_tableConfirmMoney_Currency" FromRole="tableConfirmMoney" ToRole="tableCurrency" />
         </EntityType>
         <EntityType Name="tableConfirmProduct">
           <Key>
@@ -398,6 +394,11 @@
             <End Role="tableUser" EntitySet="tableUser" />
             <End Role="tableOrder" EntitySet="tableOrder" />
           </AssociationSet>
+          <EntitySet Name="tableCurrency" EntityType="MvcDbProjeModel.tableCurrency" />
+          <AssociationSet Name="FK_tableConfirmMoney_Currency" Association="MvcDbProjeModel.FK_tableConfirmMoney_Currency">
+            <End Role="tableCurrency" EntitySet="tableCurrency" />
+            <End Role="tableConfirmMoney" EntitySet="tableConfirmMoney" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -418,7 +419,7 @@
           <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Quantity" Type="Int32" />
           <Property Name="Price" Type="Int32" />
-          <Property Name="Time" Type="DateTime" Precision="0" />
+          <Property Name="Time" Type="DateTime" Precision="3" />
           <Property Name="State" Type="Boolean" />
           <Property Name="CustomerID" Type="Int32" />
           <NavigationProperty Name="tableUser" Relationship="MvcDbProjeModel.FK_tableOrder_tableUser" FromRole="tableOrder" ToRole="tableUser" />
@@ -432,6 +433,26 @@
             </Principal>
             <Dependent Role="tableOrder">
               <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tableCurrency">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CurrencyType" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="tableConfirmMoney" Relationship="MvcDbProjeModel.FK_tableConfirmMoney_Currency" FromRole="tableCurrency" ToRole="tableConfirmMoney" />
+        </EntityType>
+        <Association Name="FK_tableConfirmMoney_Currency">
+          <End Type="MvcDbProjeModel.tableCurrency" Role="tableCurrency" Multiplicity="0..1" />
+          <End Type="MvcDbProjeModel.tableConfirmMoney" Role="tableConfirmMoney" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tableCurrency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tableConfirmMoney">
+              <PropertyRef Name="CurrencyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -455,7 +476,8 @@
     <EntitySetMapping Name="tableConfirmMoney">
       <EntityTypeMapping TypeName="IsTypeOf(MvcDbProjeModel.tableConfirmMoney)">
         <MappingFragment StoreEntitySet="tableConfirmMoney">
-          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Money" ColumnName="Money" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
@@ -510,30 +532,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="MvcDbProjeModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="MvcDbProjeModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="MvcDbProjeModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="MvcDbProjeModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MvcDbProjeModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="MvcDbProjeModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MvcDbProjeModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="MvcDbProjeModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="MvcDbProjeModel.Store.sp_upgraddiagrams" />
           <EntitySetMapping Name="tableOrder">
             <EntityTypeMapping TypeName="MvcDbProjeModel.tableOrder">
               <MappingFragment StoreEntitySet="tableOrder">
@@ -543,6 +541,14 @@
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tableCurrency">
+            <EntityTypeMapping TypeName="MvcDbProjeModel.tableCurrency">
+              <MappingFragment StoreEntitySet="tableCurrency">
+                <ScalarProperty Name="CurrencyType" ColumnName="CurrencyType" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -34,6 +34,7 @@ namespace yazilimYapimi.Models.Entity
         public virtual DbSet<tableUser> tableUser { get; set; }
         public virtual DbSet<tableWallet> tableWallet { get; set; }
         public virtual DbSet<tableOrder> tableOrder { get; set; }
+        public virtual DbSet<tableCurrency> tableCurrency { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

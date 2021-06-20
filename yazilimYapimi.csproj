@@ -184,6 +184,9 @@
     <Compile Include="Models\Entity\tableConfirmProduct.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\tableCurrency.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity\tableOrder.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
