@@ -20,7 +20,7 @@ namespace yazilimYapimi.Controllers
             return View (model);
         }
 
-        public ActionResult GeneratePdf()
+        public ActionResult GeneratePdf()  //pdf indirmek için
         {
             return new Rotativa.ActionAsPdf("Report");
         }
