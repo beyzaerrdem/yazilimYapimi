@@ -139,7 +139,7 @@ namespace yazilimYapimi.Controllers
             
             
             var userWallet = db.tableWallet.FirstOrDefault(x => x.UserID == p3.CustomerID);
-            var muhWallet = db.tableWallet.FirstOrDefault(x => x.tableUser.UserName == "muhasebe");
+            var muhWallet = db.tableWallet.FirstOrDefault(x => x.tableUser.UserName == "accounting");
             var productList = db.tableProduct.Where(x => x.ProductName == p3.ProductName && x.Price==p3.Price); // fiyata göre sıralanması 
             int? q = p3.Quantity;
             var money =userWallet.Money;
@@ -155,13 +155,13 @@ namespace yazilimYapimi.Controllers
                 if (item.Quantity > 0)
                 {
                     
-                    if (fiyatartiYuzdebir(item.Price * q) <= money)
+                    if (priceCentesimal(item.Price * q) <= money)
                     {
                         if (item.Quantity >= q)
                         {
 
                             item.Quantity -= q;
-                            money -= fiyatartiYuzdebir(item.Price * q);
+                            money -= priceCentesimal(item.Price * q);
                             supplierWallet.Money += item.Price * q;
                             muhWallet.Money += (item.Price * q) / 100;
                             message = "Your purchase has been made.";
@@ -171,7 +171,7 @@ namespace yazilimYapimi.Controllers
                         else
                         {
                             q -= item.Quantity;
-                            money -= fiyatartiYuzdebir(item.Price * item.Quantity);
+                            money -= priceCentesimal(item.Price * item.Quantity);
                             supplierWallet.Money += (item.Price * item.Quantity);
                             muhWallet.Money += (item.Price * item.Quantity) / 100;
                             message = "You bought " + item.Quantity + " pieces of " + p3.ProductName + "";
@@ -183,7 +183,7 @@ namespace yazilimYapimi.Controllers
                     {
                         double a = Convert.ToDouble(money / item.Price);
                         availableQuantity = Convert.ToDecimal(Math.Round(a));
-                        money -=fiyatartiYuzdebir(availableQuantity * item.Price);
+                        money -= priceCentesimal(availableQuantity * item.Price);
                         supplierWallet.Money += availableQuantity * item.Price;
                         muhWallet.Money += (availableQuantity * item.Price) / 100;
                         item.Quantity -= Convert.ToInt32(availableQuantity);
@@ -216,10 +216,10 @@ namespace yazilimYapimi.Controllers
 
             return View();
         }
-        decimal? fiyatartiYuzdebir(decimal? fiyat)
+        decimal? priceCentesimal(decimal? price)  //yüzdebir
         {
-            decimal? yuzdebir = fiyat / 100;
-            return fiyat + yuzdebir;
+            decimal? centesimal = price / 100;
+            return price + centesimal;
         }
 
 
