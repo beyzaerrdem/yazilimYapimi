@@ -56,6 +56,7 @@ namespace yazilimYapimi.Controllers
                 db.SaveChanges();
 
             }
+
             return RedirectToAction("ProductList", "Product");
         }
 
@@ -101,7 +102,7 @@ namespace yazilimYapimi.Controllers
             {
                 
                 OrderProduct(item);
-                //db.tableOrder.Remove(item);
+                db.tableOrder.Remove(item);
             }
             
             return RedirectToAction("ConfirmList");
@@ -146,7 +147,7 @@ namespace yazilimYapimi.Controllers
 
             string message = "";
 
-            bool islemYapildi = false;
+            bool completed = false;
 
             foreach (var item in productList)
             {
@@ -164,7 +165,7 @@ namespace yazilimYapimi.Controllers
                             supplierWallet.Money += item.Price * q;
                             muhWallet.Money += (item.Price * q) / 100;
                             message = "Your purchase has been made.";
-                            islemYapildi = true;
+                            completed = true;
                             break;
                         }
                         else
@@ -174,7 +175,7 @@ namespace yazilimYapimi.Controllers
                             supplierWallet.Money += (item.Price * item.Quantity);
                             muhWallet.Money += (item.Price * item.Quantity) / 100;
                             message = "You bought " + item.Quantity + " pieces of " + p3.ProductName + "";
-                            islemYapildi = true;
+                            completed = true;
                             item.Quantity = 0;
                         }
                     }
@@ -187,19 +188,19 @@ namespace yazilimYapimi.Controllers
                         muhWallet.Money += (availableQuantity * item.Price) / 100;
                         item.Quantity -= Convert.ToInt32(availableQuantity);
                         message = "You bought " + availableQuantity + " pieces of " + p3.ProductName + "";
-                        islemYapildi = true;
+                        completed = true;
                         break;
                     }
                     else
                     {
-                        islemYapildi = false;
+                        completed = false;
                         message = "You don't have enough money for this purchase";
                         break;
                     }
                 }
             }
 
-            p3.State = islemYapildi;
+            p3.State = completed;
 
             if (!update)
             {
