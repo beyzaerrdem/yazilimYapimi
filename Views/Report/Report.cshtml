@@ -1,38 +1,58 @@
 ﻿
 @{
     ViewBag.Title = "Report";
-    // Layout = "~/Views/Shared/_MainLayout.cshtml";
-    Layout = "";
+    Layout = null;
 }
 
-<h2>Report</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
 
-<table class=" table table-bordered">
-    <tr>
-        <th>Product ID</th>
-        <th>Product Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Time</th>
-    </tr>
+    <div class="container">
+        <h2>Report</h2>
 
-    <tbody>
-        @foreach (var prdct in Model)
-        {
+        <table class=" table table-bordered">
             <tr>
-                <th>@prdct.ID</th>
-                <td>@prdct.ProductName</td>
-                <td>@prdct.Price</td>
-                <td>@prdct.Quantity</td>
-                <td>@prdct.Time</td>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Time</th>
             </tr>
-        }
-    </tbody>
-</table>
 
-<a href="GeneratePdf">GeneratePDF</a>
+            <tbody>
+                @foreach (var prdct in Model)
+                {
+                    <tr>
+                        <th>@prdct.ID</th>
+                        <td>@prdct.ProductName</td>
+                        <td>@prdct.Price</td>
+                        <td>@prdct.Quantity</td>
+                        <td>@prdct.Time</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div>
+
+            <a class="btn btn-success" href="GeneratePdf">GeneratePDF</a>
+
+            @Html.ActionLink("Back to List", "ProductList", null, new { @class = "btn btn-info" })
+        </div>
+    </div>
+
+</body>
+</html>
 
 
-<div>
-    @Html.ActionLink("Back to List", "ProductList")
-</div>
+
+

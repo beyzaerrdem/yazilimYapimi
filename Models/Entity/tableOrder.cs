@@ -17,7 +17,7 @@ namespace yazilimYapimi.Models.Entity
         public int ID { get; set; }
         public string ProductName { get; set; }
         public Nullable<int> Quantity { get; set; }
-        public Nullable<int> Price { get; set; }
+        public Nullable<decimal> Price { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
         public Nullable<bool> State { get; set; }
         public Nullable<int> CustomerID { get; set; }

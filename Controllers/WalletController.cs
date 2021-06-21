@@ -27,7 +27,7 @@ namespace yazilimYapimi.Controllers
             if (wallet != null)
             {
                 ViewBag.Money = wallet.Money;
-                //ViewBag.CurrencyType = new SelectList(db.tableCurrency.ToList(), "ID", "CurrencyType");
+                ViewBag.CurrencyType = new SelectList(db.tableCurrency.ToList(), "ID", "CurrencyType");
             }
 
 
@@ -70,6 +70,7 @@ namespace yazilimYapimi.Controllers
 
             db.SaveChanges();
             ViewBag.Money = wallet.Money;
+            ViewBag.CurrencyType = new SelectList(db.tableCurrency.ToList(), "ID", "CurrencyType");
 
             return View();
         }
